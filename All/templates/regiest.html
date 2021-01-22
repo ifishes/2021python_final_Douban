@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+
+<head>
+    <title>豆瓣数据分析展示平台</title>
+        <!-- meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- css -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- js -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://huangkun123.com/static/admin/js/layui.js"></script>
+    <script src="http://huangkun123.com/static/admin/js/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="http://huangkun123.com/static/admin/css/layui.css">
+</head>
+<body style=" background: url(../../static/admin/images/travel.png);background-repeat: no-repeat;" >
+
+<div class="container" style="background: rgba(0,0,0,.075);border-radius: 8px;float:right;margin-top:250px;width:500px;margin-right:200px">
+    <form  action="" method="post" >
+
+
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="text-align: center;">
+      <label style="text-align: center;font-size:20px;margin-bottom: 20px;">用户注册</label>
+    </div>
+    <br>
+                 <br>
+
+     <div class="layui-form-item" style="text-align: center">
+
+          <div class="layui-form-item" style="text-align: center">
+    <div class="layui-inline">
+      <label class="layui-form-label">昵称</label>
+      <div class="layui-input-inline">
+        <input style="width:250px" type="tel" name="name" lay-verify="required|phone" autocomplete="off" class="layui-input" placeholder="输入昵称">
+      </div>
+    </div>
+         <br>
+
+        <div class="layui-form-item" style="text-align: center">
+    <div class="layui-inline">
+      <label class="layui-form-label">手机</label>
+      <div class="layui-input-inline">
+        <input style="width:250px" type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input" placeholder="输入手机号">
+      </div>
+    </div>
+         <br>
+            <div class="layui-inline">
+      <label class="layui-form-label">密码</label>
+      <div class="layui-input-inline">
+        <input style="width:250px" type="password" name="password" lay-verify="email" autocomplete="off" class="layui-input" placeholder="设置密码">
+      </div>
+        <br>
+
+<p style="color:red">{{message}}</p>
+    </div>
+
+         <br>
+  </div>
+    <div style="text-align: center;margin-bottom: 40px">
+        <div  >
+    <button type="submit" class="layui-btn layui-btn-primary layui-btn-sm">注册</button>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <a href="/user/login"><button type="button" class="layui-btn layui-btn-primary layui-btn-sm" >返回</button> </a>
+ </div>
+    </div>
+
+</form>
+</div>
+
+
+</body>
+</html>

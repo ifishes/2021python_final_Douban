@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+
+<head>
+    <title>豆瓣数据分析展示平台</title>
+        <!-- meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- css -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- js -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://huangkun123.com/static/admin/js/layui.js"></script>
+    <script src="http://huangkun123.com/static/admin/css/layui.css"></script>
+    <script src="http://huangkun123.com/static/admin/js/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="http://huangkun123.com/static/admin/css/layui.css">
+    <script src="http://huangkun123.com/static/admin/js/echarts.min.js"></script>
+    <script src="http://huangkun123.com/static/admin/js/echarts.js"></script>
+    <script src="http://huangkun123.com/static/admin/js/world.js"></script>
+    <style>
+        .jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 0px;
+    color: inherit;
+    background-color: #eee;
+}
+.layui-bg-blue {
+    background-color: #31708f!important;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container" >
+
+    <div class="jumbotron"  style="background-color: #1e9fff00;border-radius: 0;">
+        <h2 style="text-align: center;color: #31708f;">豆瓣数据分析展示平台</h2>
+        </div>
+    <ul class="layui-nav layui-bg-blue" style="background-color: #009688!important;">
+
+
+  <li class="layui-nav-item">
+    <a href="/user/index">数据可视化</a>
+    <dl class="layui-nav-child">
+      <dd><a id="ec_1">电影分布</a></dd>
+      <dd><a id="ec_2">类型统计</a></dd>
+      <dd><a id="ec_3">电影趋势</a></dd>
+        <dd><a id="ec_4">时长占比</a></dd>
+      <dd><a id="ec_5">热榜电影</a></dd>
+    </dl>
+  </li>
+{% if user.user_type==0%}
+        <li class="layui-nav-item"><a href="/user/user_manager">用户管理</a></li>
+        {% endif %}
+
+  <li class="layui-nav-item"><a href="/user/reset_pwd">密码修改</a></li>
+  <li class="layui-nav-item"><a href="/user/login_out">退出登陆</a></li>
+</ul>
+
+
+        <div id="e_1" >
+             <p style="text-align: center;font-size: 20px;margin-top:50px"> 各个国家电影分布</p>
+ <div id="map" style="width:1000px;height:600px"></div>
+            <blockquote class="layui-elem-quote">分析：可视化图表显示了电影数量前几的国家，其中美国（2481），中国（1894），日本（856）电影数量稳居前三。</blockquote>
+    </div>
+
+    <div id="e_2" style="display:none">
+        <p style="text-align: center;font-size: 20px;margin-top:50px"> 各个类型电影统计</p>
+ <div id="echarts_2" style="width:1000px;height:500px;"></div>
+    <blockquote class="layui-elem-quote">分析：根据图表显示，豆瓣评分的电影类型主要是爱情（1219）、剧情（1186）、喜剧（684）。</blockquote>
+    </div>
+
+
+
+    <div id="e_3" style="display:none">
+
+         <p style="text-align: center;font-size: 20px;margin-top:50px"> 2000-2019年电影趋势</p>
+ <div id="echarts_3" style="width:1000px;height:400px;"></div>
+        <blockquote class="layui-elem-quote" style="margin-top:100px">分析：根据2000-2019年电影数量趋势曲线图可以发现，整体的电影行业蓬勃发展，尤其是2012年和2016年电影数量达到顶峰。</blockquote>
+    </div>
+
+    <div id="e_4" style="display:none">
+         <p style="text-align: center;
+    font-size: 20px;margin-top:50px"> 电影时长占比</p>
+ <div id="echarts_4" style="width:1000px;height:400px;"></div>
+         <blockquote class="layui-elem-quote" style="margin-top:100px">分析：豆瓣电影时长主要是100-110分钟占到23.27%、90-100分钟占比到23.03%、其次是110-120分钟占比到17.77%。</blockquote>
+
+    </div>
+
+    <div id="e_5" style="display:none">
+         <p style="text-align: center;font-size: 20px;margin-top:50px"> 评论数前10电影</p>
+ <div id="echarts_5" style="width:1000px;height:500px;"></div>
+        <blockquote class="layui-elem-quote" style="margin-top:100px">分析：豆瓣最受欢迎的电影前三部电影分别是《肖申克的救赎》评论数1353097、《这个杀手不太冷》评论数1226642、《盗梦空间》评论1065943。</blockquote>
+    </div>
+
+      <div id="e_6" style="display:none">
+            <p style="text-align: center;
+    font-size: 20px;"> 统计图表</p>
+ <div id="echarts_1" style="width:1000px;height:400px;margin-left:230px"></div>
+      </div>
+
+
+
+
+
+
+
+
+<script>
+layui.use('element', function(){
+  var $ = layui.jquery
+  ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+  //触发事件
+  var active = {
+    tabAdd: function(){
+      //新增一个Tab项
+      element.tabAdd('demo', {
+        title: '新选项'+ (Math.random()*1000|0) //用于演示
+        ,content: '内容'+ (Math.random()*1000|0)
+        ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+      })
+    }
+    ,tabDelete: function(othis){
+      //删除指定Tab项
+      element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+      othis.addClass('layui-btn-disabled');
+    }
+    ,tabChange: function(){
+      //切换到指定Tab项
+      element.tabChange('demo', '22'); //切换到：用户管理
+    }
+  };
+
+  $('.site-demo-active').on('click', function(){
+    var othis = $(this), type = othis.data('type');
+    active[type] ? active[type].call(this, othis) : '';
+  });
+
+  //Hash地址的定位
+  var layid = location.hash.replace(/^#test=/, '');
+  element.tabChange('test', layid);
+
+  element.on('tab(test)', function(elem){
+    location.hash = 'test='+ $(this).attr('lay-id');
+  });
+
+});
+</script>
+<script>
+    $("#ec_1").click(function(){
+        $("#e_1").show()
+        $("#e_2").hide()
+        $("#e_3").hide()
+        $("#e_4").hide()
+        $("#e_5").hide()
+        $("#e_6").hide()
+    })
+
+    $("#ec_2").click(function(){
+        $("#e_1").hide()
+        $("#e_2").show()
+        $("#e_3").hide()
+        $("#e_4").hide()
+        $("#e_5").hide()
+        $("#e_6").hide()
+    })
+
+    $("#ec_3").click(function(){
+        $("#e_1").hide()
+        $("#e_2").hide()
+        $("#e_3").show()
+        $("#e_4").hide()
+        $("#e_5").hide()
+        $("#e_6").hide()
+    })
+
+     $("#ec_4").click(function(){
+        $("#e_1").hide()
+        $("#e_2").hide()
+        $("#e_3").hide()
+        $("#e_4").show()
+        $("#e_5").hide()
+        $("#e_6").hide()
+    })
+
+    $("#ec_5").click(function(){
+        $("#e_1").hide()
+        $("#e_2").hide()
+        $("#e_3").hide()
+        $("#e_4").hide()
+        $("#e_5").show()
+        $("#e_6").hide()
+    })
+
+
+
+</script>
+</body>
+
+</html>
